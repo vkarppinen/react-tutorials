@@ -9,7 +9,10 @@ class Game extends React.Component {
     super();
     this.state = {
       history: [
-        {squares: Array(9).fill(null)},
+        {
+          squares: Array(9).fill(null),
+          clickedPos: null,
+        },
       ],
       xIsNext: true,
       stepNumber: 0,
@@ -33,7 +36,8 @@ class Game extends React.Component {
     squares[i] = this.state.xIsNext ? 'X' : 'O';
     this.setState({
       history: history.concat([{
-        squares: squares
+        squares: squares,
+        clickedPos: i,
       }]),
       xIsNext: !this.state.xIsNext,
       stepNumber: history.length,
@@ -41,6 +45,7 @@ class Game extends React.Component {
   }
 
   render() {
+    console.log(this);
     const history = this.state.history;
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
@@ -53,7 +58,8 @@ class Game extends React.Component {
     }
 
     const moves = history.map((step, move) => {
-      const desc = move ? 'Move #' + move : 'Game start';
+      const desc = move ?
+      'Move (' + getBoardCoordinates(this.state.history[move].clickedPos) + ')' : 'Game start';
       return (
         <li key={move}>
           <a href="#" onClick={() => this.jumpTo(move)}>
@@ -77,6 +83,14 @@ class Game extends React.Component {
   }
 }
 
+function getBoardCoordinates(pos) {
+  const coordinates = [
+    '1,1', '1,2', '1,3',
+    '2,1', '2,2', '2,3',
+    '3,1', '3,2', '3,3',
+  ]
+  return coordinates[pos];
+}
 
 function calculateWinner(squares) {
   const lines = [
