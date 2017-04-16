@@ -45,11 +45,10 @@ class Game extends React.Component {
   }
 
   render() {
-    console.log(this);
     const history = this.state.history;
     const current = history[this.state.stepNumber];
-    const winner = calculateWinner(current.squares);
 
+    const winner = calculateWinner(current.squares);
     let status;
     if (winner) {
       status = 'Winner: ' + winner;
@@ -57,16 +56,29 @@ class Game extends React.Component {
       status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
     }
 
+    var itemToBold = history.indexOf(current);
+
     const moves = history.map((step, move) => {
-      const desc = move ?
-      'Move (' + getBoardCoordinates(this.state.history[move].clickedPos) + ')' : 'Game start';
-      return (
-        <li key={move}>
-          <a href="#" onClick={() => this.jumpTo(move)}>
-            {desc}
-          </a>
-        </li>
-      );
+      let coordinates = getBoardCoordinates(history[move].clickedPos);
+      const desc = move ? 'Move (' + coordinates + ')' : 'Game start';
+
+      if (move==itemToBold) {
+        return (
+            <li key={move}>
+              <a href="#" onClick={() => this.jumpTo(move)}>
+                <strong>{desc}</strong>
+              </a>
+            </li>
+          );
+      } else {
+        return (
+            <li key={move}>
+              <a href="#" onClick={() => this.jumpTo(move)}>
+                {desc}
+              </a>
+            </li>
+          );
+        }
     });
 
     return (
