@@ -4,8 +4,7 @@ class GoogleSearchResults extends React.Component {
 
   fetchResults() {
     const api = 'https://www.googleapis.com/customsearch/v1?';
-    const key = 'AIzaSyAsV4y9kTDhtB-rPMIwQM4emJxGv4xFs88';
-    const cx = '002742913857880770053:haqigy8ppou';
+    // Keys missing, as they are in the filesystem
     let query = this.props.query;
 
     let url = api + 'key='+key + '&cx='+cx + '&q='+query;
